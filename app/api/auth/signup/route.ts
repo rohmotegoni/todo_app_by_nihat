@@ -1,28 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
-import Cors from 'cors';
-// import initMiddleware from '../../../pages/init-middleware'; // Update this path based on your folder structure
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 import { signupSchema } from '@/app/utils/validations';
 
 const JWT_SECRET = process.env.ENV_JWT_SECRET || "your_jwt_secret_key"; 
 const prisma = new PrismaClient();
-
-// Initialize CORS middleware
-// const cors = initMiddleware(
-//   Cors({
-//     origin: '*',
-//     methods: ['GET', 'POST', 'PUT', 'DEconstE'],
-//     credentials: true,
-//   })
-// );
-
-  /**
-   * Create a new user with the given name, email, and password.
-   * @param {NextRequest} req - The request object
-   * @returns {Promise<NextResponse>} - The response with the created user and a JSON Web Token in the Set-Cookie header
-   */
 export async function POST(req: NextRequest) {
   const body = await req.json();
 const parsedbody = signupSchema.safeParse(body)

@@ -186,7 +186,7 @@ export default function LoginForm() {
 
         <div className="text-center space-y-2">
           <p className="text-green-500 text-sm">
-            Don't have an account?{" "}
+            Dont have an account?{" "}
             <Link
               href="/signup"
               className="font-medium text-green-400 hover:underline"
@@ -195,7 +195,7 @@ export default function LoginForm() {
             </Link>
           </p>
           <p className="text-green-500 text-xs">
-            &copy;2023 Hacker Corp. All rights reserved.
+            2023 Hacker Corp. All rights reserved.
           </p>
         </div>
       </div>

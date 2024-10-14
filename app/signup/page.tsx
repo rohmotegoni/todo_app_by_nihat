@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { signupSchema, SignupSchema } from "../utils/validations";
-import { z } from "zod";
 
 export default function SignupForm() {
   const [name, setUsername] = useState("");

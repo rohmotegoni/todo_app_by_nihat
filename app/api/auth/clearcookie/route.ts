@@ -1,9 +1,9 @@
 
-import { NextRequest, NextResponse } from 'next/server';
+import {  NextResponse } from 'next/server';
 import { serialize } from 'cookie';
 
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST() {
     
  try {
      // Clear the 'auth_token' cookie by setting it with an empty value and maxAge to 0
