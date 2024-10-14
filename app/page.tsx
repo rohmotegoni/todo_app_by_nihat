@@ -11,7 +11,7 @@ export default function HomePage() {
   const router = useRouter();
   async function clearcookie() {
     Cookies.remove("auth_token", { path: "/" });
-    let response = await axios.post(
+    const response = await axios.post(
       `http://localhost:3000/api/auth/clearcookie`
     );
     if (response.status === 200) {

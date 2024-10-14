@@ -13,7 +13,7 @@ const prisma = new PrismaClient();
 // const cors = initMiddleware(
 //   Cors({
 //     origin: '*',
-//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     methods: ['GET', 'POST', 'PUT', 'DEconstE'],
 //     credentials: true,
 //   })
 // );
@@ -24,13 +24,13 @@ const prisma = new PrismaClient();
    * @returns {Promise<NextResponse>} - The response with the created user and a JSON Web Token in the Set-Cookie header
    */
 export async function POST(req: NextRequest) {
-  let body = await req.json();
-let parsedbody = signupSchema.safeParse(body)
+  const body = await req.json();
+const parsedbody = signupSchema.safeParse(body)
 if (!parsedbody.success) {
   return NextResponse.json({ msg: "enter a valid data" }, { status: 400 });
 }
   // Create user in Prisma
-  let response = await prisma.user.create({
+  const response = await prisma.user.create({
     data: {
       name: body.name,
       email: body.email,

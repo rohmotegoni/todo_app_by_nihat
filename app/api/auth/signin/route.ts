@@ -11,7 +11,7 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  let parsedbody = signinschema.safeParse(body)
+  const parsedbody = signinschema.safeParse(body)
   if (!parsedbody.success) {
     return NextResponse.json({ msg: "enter a valid data" }, { status: 400 });
   }
