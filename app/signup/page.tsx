@@ -43,7 +43,7 @@ export default function SignupForm() {
 
     try {
       const response = await axios.post(
-        `https://todo-app-bfms.vercel.app/api/signup`,
+        `https://todo-app-gfms.vercel.app/api/signup`,
         {
           name,
           email,

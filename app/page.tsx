@@ -13,7 +13,7 @@ export default function HomePage() {
   async function clearcookie() {
     Cookies.remove("auth_token", { path: "/" });
     const response = await axios.post(
-      `https://todo-app-bfms.vercel.app/api/clearcookie`
+      `https://todo-app-gfms.vercel.app/api/clearcookie`
     );
     if (response.status === 200) {
       // Redirect to the home page on successful login
