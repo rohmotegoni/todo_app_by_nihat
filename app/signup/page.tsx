@@ -43,11 +43,14 @@ export default function SignupForm() {
     }
 
     try {
-      const response = await axios.post(`${backendurl}/api/signup`, {
-        name,
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `https://todoappbynihat1234.netlify.app/api/signup`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
 
       if (response.status === 200) {
         router.push("/");
