@@ -44,7 +44,7 @@ export default function SignupForm() {
 
     try {
       const response = await axios.post(
-        `https://todoappbynihat1234.netlify.app/api/signup`,
+        `https://todo-app-bfms.vercel.app/api/signup`,
         {
           name,
           email,
