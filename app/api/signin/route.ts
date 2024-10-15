@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { signinschema } from '@/app/utils/validations';
+
 import bcrypt from 'bcrypt';
 
 const JWT_SECRET = process.env.ENV_JWT_SECRET || "your_jwt_secret_key"; // Replace with your actual secret key
@@ -10,11 +10,9 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const parsedbody = signinschema.safeParse(body);
   
-  if (!parsedbody.success) {
-    return NextResponse.json({ msg: "enter valid data" }, { status: 400 });
-  }
+  
+  
   
   const { email, password } = body;
 

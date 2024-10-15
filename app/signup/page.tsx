@@ -4,42 +4,17 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { signupSchema, SignupSchema } from "../utils/validations";
+
 export default function SignupForm() {
   const [name, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<Partial<SignupSchema>>({});
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  // Function to validate the form using Zod
-  const validateForm = () => {
-    const result = signupSchema.safeParse({ name, email, password });
-
-    if (!result.success) {
-      const errorMessages = result.error.flatten().fieldErrors;
-      setErrors({
-        name: errorMessages.name?.[0],
-        email: errorMessages.email?.[0],
-        password: errorMessages.password?.[0],
-      });
-      return false;
-    } else {
-      setErrors({});
-      return true;
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Validate the form before submitting
-    if (!validateForm()) {
-      setIsLoading(false);
-      return;
-    }
 
     try {
       const response = await axios.post(
@@ -90,21 +65,14 @@ export default function SignupForm() {
             >
               Username
             </label>
-            <div className="relative">
-              <input
-                type="text"
-                id="username"
-                value={name}
-                onChange={(e) => setUsername(e.target.value)}
-                className={`w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border ${
-                  errors.name ? "border-red-600" : "border-gray-600"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-                placeholder="Enter your username"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm">{errors.name}</p>
-              )}
-            </div>
+            <input
+              type="text"
+              id="username"
+              value={name}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your username"
+            />
           </div>
           <div className="mb-4">
             <label
@@ -113,21 +81,14 @@ export default function SignupForm() {
             >
               Email
             </label>
-            <div className="relative">
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border ${
-                  errors.email ? "border-red-600" : "border-gray-600"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-                placeholder="Enter your email"
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
-              )}
-            </div>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your email"
+            />
           </div>
           <div className="mb-6">
             <label
@@ -136,21 +97,14 @@ export default function SignupForm() {
             >
               Password
             </label>
-            <div className="relative">
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border ${
-                  errors.password ? "border-red-600" : "border-gray-600"
-                } rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent`}
-                placeholder="Enter your password"
-              />
-              {errors.password && (
-                <p className="text-red-500 text-sm">{errors.password}</p>
-              )}
-            </div>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full pl-3 pr-3 py-2 text-green-400 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="Enter your password"
+            />
           </div>
           <div className="flex items-center justify-between">
             <button

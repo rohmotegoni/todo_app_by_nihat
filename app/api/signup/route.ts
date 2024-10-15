@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
-import { signupSchema } from '@/app/utils/validations';
+
 import bcrypt from 'bcrypt';
 
 const JWT_SECRET = process.env.ENV_JWT_SECRET || "your_jwt_secret_key"; 
@@ -10,12 +10,8 @@ const prisma = new PrismaClient();
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const parsedBody = signupSchema.safeParse(body);
+  
 
-  // Validate incoming data
-  if (!parsedBody.success) {
-    return NextResponse.json({ msg: "Enter valid data" }, { status: 400 });
-  }
 
     // Hash the password before saving to the database
     const hashedPassword = await bcrypt.hash(body.password, 10);
