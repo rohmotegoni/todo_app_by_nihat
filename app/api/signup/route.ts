@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ msg: "Enter valid data" }, { status: 400 });
   }
 
-  try {
     // Hash the password before saving to the database
     const hashedPassword = await bcrypt.hash(body.password, 10);
 
@@ -55,13 +54,5 @@ export async function POST(req: NextRequest) {
     
     return responseWithCookie;
 
-  } catch (error:unknown) {
-    // Handle possible errors (e.g., email already exists)
-    if (error instanceof Error) {
-      return NextResponse.json({ msg: "Email already exists" }, { status: 409 }); // Conflict
-    }
-    
-    console.error(error);
-    return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });
-  }
+  
 }
