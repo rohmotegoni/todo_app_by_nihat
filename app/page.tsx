@@ -9,7 +9,7 @@ export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const backendurl = process.env.BACKEND_URL;
+
   async function clearcookie() {
     Cookies.remove("auth_token", { path: "/" });
     const response = await axios.post(

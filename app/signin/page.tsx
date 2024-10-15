@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const backendurl = process.env.BACKEND_URL;
+
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
