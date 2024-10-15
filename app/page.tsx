@@ -12,7 +12,7 @@ export default function HomePage() {
   const backendurl = process.env.BACKEND_URL;
   async function clearcookie() {
     Cookies.remove("auth_token", { path: "/" });
-    const response = await axios.post(`${backendurl}/api/auth/clearcookie`);
+    const response = await axios.post(`${backendurl}/pages/api/clearcookie`);
     if (response.status === 200) {
       // Redirect to the home page on successful login
       router.push("/signin"); // Redirect to the home route

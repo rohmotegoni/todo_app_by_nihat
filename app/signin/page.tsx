@@ -14,7 +14,7 @@ export default function LoginForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  let backendurl = process.env.BACKEND_URL;
+  const backendurl = process.env.BACKEND_URL;
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,7 +33,7 @@ export default function LoginForm() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`${backendurl}/api/auth/signin`, {
+      const response = await axios.post(`${backendurl}/pages/api/signin`, {
         email,
         password,
       });

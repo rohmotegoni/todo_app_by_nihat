@@ -43,7 +43,7 @@ export default function SignupForm() {
     }
 
     try {
-      const response = await axios.post(`${backendurl}/api/auth/signup`, {
+      const response = await axios.post(`${backendurl}/pages/api/signup`, {
         name,
         email,
         password,
