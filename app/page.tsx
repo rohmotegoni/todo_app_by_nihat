@@ -12,9 +12,7 @@ export default function HomePage() {
 
   async function clearcookie() {
     Cookies.remove("auth_token", { path: "/" });
-    const response = await axios.post(
-      `https://todoappbynihat12345.netlify.app/api/clearcookie`
-    );
+    const response = await axios.post(`/api/clearcookie`);
     if (response.status === 200) {
       // Redirect to the home page on successful login
       router.push("/signin"); // Redirect to the home route

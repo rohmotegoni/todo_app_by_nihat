@@ -33,13 +33,10 @@ export default function LoginForm() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(
-        `https://todoappbynihat12345.netlify.app/api/signin`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`/api/signin`, {
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         router.push("/");

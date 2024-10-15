@@ -17,14 +17,11 @@ export default function SignupForm() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(
-        `https://todoappbynihat12345.netlify.app/api/signup`,
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`/api/signup`, {
+        name,
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         router.push("/");
