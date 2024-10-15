@@ -33,7 +33,7 @@ export default function LoginForm() {
 
     setIsLoading(true);
     try {
-      const response = await axios.post(`${backendurl}/pages/api/signin`, {
+      const response = await axios.post(`${backendurl}/api/signin`, {
         email,
         password,
       });
