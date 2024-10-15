@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { signupSchema, SignupSchema } from "../utils/validations";
-
+const backendurl = process.env.BACKEND_URL;
 export default function SignupForm() {
   const [name, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -43,14 +43,11 @@ export default function SignupForm() {
     }
 
     try {
-      const response = await axios.post(
-        `http://localhost:3000/api/auth/signup`,
-        {
-          name,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${backendurl}/api/auth/signup`, {
+        name,
+        email,
+        password,
+      });
 
       if (response.status === 200) {
         router.push("/");
