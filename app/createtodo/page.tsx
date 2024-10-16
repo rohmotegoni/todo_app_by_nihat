@@ -24,7 +24,7 @@ export default function CreateTodo() {
     setSuccessMessage("");
 
     try {
-      let response = await axios.post(`/api/createtodo`, {
+      const response = await axios.post(`/api/createtodo`, {
         title,
         description,
       });

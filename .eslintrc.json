@@ -1,3 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    // Add any rules you want to disable here
+    "no-console": "off", // Example: Disable the no-console rule
+    "react/no-unused-prop-types": "off",
+    "prefer-const": "off", // Disable the prefer-const rule
+    "@typescript-eslint/no-empty-object-type": "off" // Example: Disable the react/no-unused-prop-types rule
+  }
 }

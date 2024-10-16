@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const prisma = new PrismaClient();
-  let cookie = req.cookies.get("userId");
+  const cookie = req.cookies.get("userId");
   const userId = cookie ? parseInt(cookie.value) : null;
 
   try {

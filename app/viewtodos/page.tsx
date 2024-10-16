@@ -5,19 +5,23 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, RefreshCw, PlusCircle, Trash2 } from "lucide-react";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Todo {
+  todoId: number;
   id: number;
   title: string;
   description: string;
   completed: boolean;
 }
 
-export function ViewTodos() {
+export default function ViewTodos() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const fetchTodos = async () => {
     setIsLoading(true);
@@ -40,9 +44,8 @@ export function ViewTodos() {
   const handleCreateTodo = async () => {
     setIsCreating(true);
     try {
-      // Simulate API call (replace with actual API call if needed)
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      // After successful creation, refresh the todo list
+      router.push("/createtodo");
       await fetchTodos();
     } catch (err) {
       setError("Failed to create todo. Please try again.");
@@ -53,27 +56,35 @@ export function ViewTodos() {
   };
 
   const handleDeleteTodo = async (todoId: number) => {
+    setIsDeleting(true);
     try {
-      await axios.post("/api/deletetodo", {
-        todoId: todoId,
+      let response = await axios.delete(`/api/deletetodo`, {
+        headers: {
+          todoId: todoId.toString(),
+        },
       });
-      // After successful deletion, refresh the todo list
+      console.log(todoId);
       await fetchTodos();
+      return response.data;
     } catch (err) {
       setError("Failed to delete todo. Please try again.");
       console.error("Error deleting todo:", err);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 p-4 relative">
-      {isCreating && (
+      {(isCreating || isDeleting) && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <Loader2 className="h-8 w-8 animate-spin text-white" />
         </div>
       )}
       <div
-        className={`transition-all duration-300 ${isCreating ? "blur-sm" : ""}`}
+        className={`transition-all duration-300 ${
+          isCreating || isDeleting ? "blur-sm" : ""
+        }`}
       >
         <Card className="max-w-4xl mx-auto">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -132,9 +143,10 @@ export function ViewTodos() {
                       </div>
                     </div>
                     <Button
-                      onClick={() => handleDeleteTodo(todo.id)}
+                      onClick={() => handleDeleteTodo(todo.todoId)}
                       variant="destructive"
                       size="icon"
+                      disabled={isDeleting}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -148,4 +160,3 @@ export function ViewTodos() {
     </div>
   );
 }
-export default ViewTodos;

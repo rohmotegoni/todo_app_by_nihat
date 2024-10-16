@@ -4,18 +4,50 @@ import { useState, useEffect, useRef } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { LogOut, Loader2, List, PlusCircle } from "lucide-react";
 
 export default function HomePage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingButton, setLoadingButton] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  async function clearcookie() {
-    Cookies.remove("auth_token", { path: "/" });
-    const response = await axios.post(`/api/clearcookie`);
-    if (response.status === 200) {
-      // Redirect to the home page on successful login
-      router.push("/signin"); // Redirect to the home route
+  async function handleLogout() {
+    setIsLoading(true);
+    try {
+      Cookies.remove("auth_token", { path: "/" });
+      const response = await axios.post(`/api/clearcookie`);
+      if (response.status === 200) {
+        router.push("/signin");
+      }
+    } catch (error) {
+      console.error("Logout failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  async function handleViewTodos() {
+    setLoadingButton("viewTodos");
+    try {
+      console.log("Navigating to todos list...");
+      // Simulate API call or navigation delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Add your navigation logic here
+    } finally {
+      setLoadingButton(null);
+    }
+  }
+
+  async function handleCreateTodo() {
+    setLoadingButton("createTodo");
+    try {
+      console.log("Navigating to create todo page...");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/createtodo");
+    } finally {
+      setLoadingButton(null);
     }
   }
 
@@ -59,12 +91,12 @@ export default function HomePage() {
       cursor: "pointer",
       color: "#333",
       transition: "transform 0.3s ease",
-      width: "60px", // Increased width
-      height: "60px", // Increased height
+      width: "60px",
+      height: "60px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderRadius: "50%", // Make it circular
+      borderRadius: "50%",
     },
     menuButtonOpen: {
       transform: "rotate(90deg)",
@@ -98,9 +130,12 @@ export default function HomePage() {
       color: "#333",
       padding: "12px 16px",
       textDecoration: "none",
-      display: "block",
+      // display: "block",
       cursor: "pointer",
       transition: "background-color 0.3s ease",
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
     },
     main: {
       maxWidth: "800px",
@@ -120,7 +155,9 @@ export default function HomePage() {
       padding: "15px 32px",
       textAlign: "center" as const,
       textDecoration: "none",
-      display: "inline-block",
+      display: "inline-flex",
+      alignItems: "center",
+      justifyContent: "center",
       fontSize: "16px",
       margin: "4px 2px",
       cursor: "pointer",
@@ -140,6 +177,26 @@ export default function HomePage() {
       transform: "scale(0)",
       animation: "ripple 0.6s linear",
       backgroundColor: "rgba(255, 255, 255, 0.7)",
+    },
+    loadingOverlay: {
+      position: "fixed" as const,
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      zIndex: 1000,
+    },
+    loadingSpinner: {
+      width: "50px",
+      height: "50px",
+      border: "5px solid #f3f3f3",
+      borderTop: "5px solid #3498db",
+      borderRadius: "50%",
+      animation: "spin 1s linear infinite",
     },
   };
 
@@ -177,7 +234,20 @@ export default function HomePage() {
             opacity: 0;
           }
         }
+        @keyframes spin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
       `}</style>
+      {isLoading && (
+        <div style={styles.loadingOverlay}>
+          <div style={styles.loadingSpinner}></div>
+        </div>
+      )}
       <header style={styles.header}>
         <div style={styles.headerContent}>
           <div style={styles.appTitle}>Todo App</div>
@@ -200,7 +270,7 @@ export default function HomePage() {
             >
               <a
                 style={styles.dropdownItem}
-                onClick={clearcookie}
+                onClick={handleLogout}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.backgroundColor = "#f0f0f0")
                 }
@@ -208,7 +278,8 @@ export default function HomePage() {
                   (e.currentTarget.style.backgroundColor = "transparent")
                 }
               >
-                &#128682; Logout
+                <LogOut size={18} />
+                Logout
               </a>
             </div>
           </div>
@@ -219,7 +290,7 @@ export default function HomePage() {
           <button
             style={styles.button}
             onClick={(e) => {
-              console.log("Navigating to todos list...");
+              handleViewTodos();
               rippleEffect(e);
             }}
             onMouseEnter={(e) =>
@@ -229,14 +300,19 @@ export default function HomePage() {
               (e.currentTarget.style.backgroundColor =
                 styles.button.backgroundColor)
             }
+            disabled={loadingButton === "viewTodos"}
           >
-            &#128203; View Todos
+            {loadingButton === "viewTodos" ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <List className="mr-2 h-4 w-4" />
+            )}{" "}
+            View Todos
           </button>
           <button
             style={styles.button}
             onClick={(e) => {
-              console.log("Navigating to create todo page...");
-              router.push("/createtodo");
+              handleCreateTodo();
               rippleEffect(e);
             }}
             onMouseEnter={(e) =>
@@ -246,8 +322,14 @@ export default function HomePage() {
               (e.currentTarget.style.backgroundColor =
                 styles.button.backgroundColor)
             }
+            disabled={loadingButton === "createTodo"}
           >
-            &#10133; Create Todo
+            {loadingButton === "createTodo" ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <PlusCircle className="mr-2 h-4 w-4" />
+            )}{" "}
+            Create Todo
           </button>
         </div>
       </main>
