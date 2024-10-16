@@ -236,6 +236,7 @@ export default function HomePage() {
             style={styles.button}
             onClick={(e) => {
               console.log("Navigating to create todo page...");
+              router.push("/createtodo");
               rippleEffect(e);
             }}
             onMouseEnter={(e) =>
